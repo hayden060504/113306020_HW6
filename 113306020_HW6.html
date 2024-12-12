@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>113306020 1A2B Game</title>
+    <style>
+        // ask chatgpt to make the page more stylish
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #495057;
+        }
+
+        #results p {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>113306020_HW6_1A2B</h1>
+    <input type="text" id="userInput" placeholder="Enter 4 unique digits">
+    <button id="submitButton">Submit</button>
+    <div id="results"></div>
+    
+
+    <script>
+        var digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var secretNumber = [];
+        while (secretNumber.length < 4) {
+            var randomIndex = Math.floor(Math.random() * digits.length);
+            secretNumber.push(digits[randomIndex]);
+            digits.splice(randomIndex, 1);
+        }
+
+        var attempts = 0;
+
+        document.getElementById("submitButton").onclick = function() {
+            var userInput = document.getElementById("userInput").value;
+
+            if (userInput.length !== 4 || !/^\d{4}$/.test(userInput)) {
+                alert("Invalid input. Enter 4 unique digits.");
+                return;
+            }
+            var uniqueDigits = new Set(userInput);
+            if (uniqueDigits.size !== 4) {
+                alert("Invalid input. Digits must not repeat.");
+                return;
+            }
+
+            var userGuess = userInput.split('').map(Number);
+            var A = 0, B = 0;
+            for (var i = 0; i < 4; i++) {
+                if (userGuess[i] === secretNumber[i]) {
+                    A++;
+                } else if (secretNumber.includes(userGuess[i])) {
+                    B++;
+                }
+            }
+            
+            attempts++;
+            var resultText = "Attempt " + attempts + ": " + userInput + " => " + A + "A" + B + "B";
+            var resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML += "<p>" + resultText + "</p>";
+
+            if (A === 4) {
+                alert("Congratulations! You've guessed the number in " + attempts + " attempts.");
+                document.getElementById("userInput").value = "";
+            } else {
+                document.getElementById("userInput").value = "";
+            }
+        };
+    </script>
+</body>
+</html>
